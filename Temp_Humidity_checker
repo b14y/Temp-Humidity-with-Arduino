@@ -1,0 +1,33 @@
+#include <Adafruit_Sensor.h>
+#include <DHT.h>
+#include <LiquidCrystal.h>
+
+#define DHTPIN 6
+#define DHTTYPE DHT11
+DHT dht(DHTPIN, DHTTYPE);
+
+LiquidCrystal lcd(12, 11, 10, 9, 8, 7);
+
+void setup() {
+  lcd.begin(16, 2);
+  dht.begin();
+  lcd.print("DHT11 Ready!");
+}
+
+void loop() {
+  float h = dht.readHumidity();
+  float t = dht.readTemperature(true); // Fahrenheit
+
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Temp: ");
+  lcd.print(t, 1);
+  lcd.print("F");
+
+  lcd.setCursor(0, 1);
+  lcd.print("Humidity: ");
+  lcd.print(h, 0);
+  lcd.print("%");
+
+  delay(2000);
+}
